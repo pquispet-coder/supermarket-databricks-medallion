@@ -1,0 +1,39 @@
+
+name: Despliegue Databricks PROD
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: databricks-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Desplegar y ejecutar ETL
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      DATABRICKS_AUTH_TYPE: pat
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validar configuracion
+        run: databricks bundle validate -t prod
+
+      - name: Desplegar a PROD
+        run: databricks bundle deploy -t prod
+
+      - name: Ejecutar workflow ETL
+        run: databricks bundle run -t prod etl_supermarket
