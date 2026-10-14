@@ -51,3 +51,26 @@ Los resultados corresponden a los registros que pudieron relacionarse correctame
 - `.github/workflows`: configuración de GitHub Actions.
 
 También se incluye `databricks.yml`, donde se define el Workflow que se despliega en PROD.
+
+
+## Diagrama de arquitectura
+
+```mermaid
+flowchart TD
+    A["Kaggle - Archivos CSV"] --> B["Azure Data Lake Gen2 - RAW"]
+
+    B -->|Managed Identity| C["Azure Databricks DEV"]
+    C --> D["GitHub - Repositorio"]
+
+    D -->|GitHub Actions| E["Azure Databricks PROD - Serverless"]
+
+    B -->|Managed Identity| E
+
+    E --> F["Bronze - 6 tablas Delta"]
+    F --> G["Silver - Limpieza y validaciones"]
+    G --> H["Gold - Indicadores de compras"]
+    H --> I["Dashboard Databricks"]
+
+    E --> J["Unity Catalog - Permisos GRANT"]
+```
+
