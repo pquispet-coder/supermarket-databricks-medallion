@@ -1,8 +1,14 @@
-
 name: Despliegue Databricks PROD
 
 on:
   workflow_dispatch:
+
+  push:
+    branches:
+      - main
+    paths:
+      - "proceso/**"
+      - "databricks.yml"
 
 permissions:
   contents: read
