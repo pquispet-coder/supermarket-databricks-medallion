@@ -74,3 +74,12 @@ flowchart TD
     E --> J["Unity Catalog - Permisos GRANT"]
 ```
 
+# Reversión
+
+En esta carpeta se encuentra el script `01_reversion_prod.sql`, que permite eliminar las tablas y los esquemas Bronze, Silver y Gold del catálogo de producción.
+
+Las tablas se crearon como tablas Delta administradas por Unity Catalog. Por este motivo, al ejecutar los comandos `DROP TABLE`, Databricks gestiona también la eliminación posterior de sus archivos físicos.
+
+No se realiza una eliminación manual de las rutas de estas tablas. Tampoco se eliminan los archivos originales del contenedor `raw`, ya que son la fuente del ETL.
+
+El script de reversión no forma parte del workflow normal y solo debe ejecutarse cuando sea necesario retirar los objetos del proyecto.
