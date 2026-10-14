@@ -1,0 +1,243 @@
+{
+  "datasets": [
+    {
+      "name": "cb98735a",
+      "displayName": "Datos sin nombre",
+      "queryLines": [
+        "SELECT\r\n",
+        "    product_name AS producto,\r\n",
+        "    total_compras,\r\n",
+        "    tasa_recompra\r\n",
+        "FROM dbw_supermarket_prod.gold.productos_populares\r\n",
+        "ORDER BY total_compras DESC\r\n",
+        "LIMIT 10;\r\n"
+      ]
+    },
+    {
+      "name": "b79ceb57",
+      "displayName": "Compras por departamento",
+      "queryLines": [
+        "SELECT\r\n",
+        "    department AS departamento,\r\n",
+        "    total_productos_comprados AS total_compras,\r\n",
+        "    tasa_recompra\r\n",
+        "FROM dbw_supermarket_prod.gold.departamentos\r\n",
+        "ORDER BY total_productos_comprados DESC;\r\n"
+      ]
+    },
+    {
+      "name": "f05ee672",
+      "displayName": "Pedidos por hora",
+      "queryLines": [
+        "SELECT\r\n",
+        "    order_hour_of_day AS hora,\r\n",
+        "    total_pedidos,\r\n",
+        "    promedio_articulos_pedido\r\n",
+        "FROM dbw_supermarket_prod.gold.pedidos_por_hora\r\n",
+        "ORDER BY hora;\r\n"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "efc99882",
+      "displayName": "Resumen de compras",
+      "layout": [
+        {
+          "widget": {
+            "name": "afc86e16",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "cb98735a",
+                  "fields": [
+                    {
+                      "name": "sum(total_compras)",
+                      "expression": "SUM(`total_compras`)"
+                    },
+                    {
+                      "name": "producto",
+                      "expression": "`producto`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Top 10 productos más comprados",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(total_compras)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "producto",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "compras_departamento",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "b79ceb57",
+                  "fields": [
+                    {
+                      "name": "sum(total_compras)",
+                      "expression": "SUM(`total_compras`)"
+                    },
+                    {
+                      "name": "departamento",
+                      "expression": "`departamento`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Compras por departamento",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(total_compras)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "departamento",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 8,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "pedidos_por_hora",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f05ee672",
+                  "fields": [
+                    {
+                      "name": "hora",
+                      "expression": "`hora`"
+                    },
+                    {
+                      "name": "sum(total_pedidos)",
+                      "expression": "SUM(`total_pedidos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Distribución de pedidos por hora",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "hora",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_pedidos)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 5,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
