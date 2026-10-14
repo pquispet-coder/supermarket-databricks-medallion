@@ -24,3 +24,6 @@ for esquema in esquemas:
     print(f"OK - Esquema {catalogo}.{esquema}")
 
 print("PREPARACIÓN DEL AMBIENTE COMPLETADA")
+
+# Prueba de despliegue automatico DEV a PROD
+
