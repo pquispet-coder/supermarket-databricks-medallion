@@ -74,3 +74,9 @@ flowchart TD
     E --> J["Unity Catalog - Permisos GRANT"]
 ```
 
+### Dashboard publicado
+
+[Ver dashboard de Supermarket en Databricks](https://adb-7405605165112572.12.azuredatabricks.net/dashboardsv3/01f1c75be204183aad804766c7edef62/published?o=7405605165112572)
+
+El acceso al dashboard requiere permisos en Databricks. También se incluye una copia exportada en la carpeta `dashboards` y capturas en `evidencias`.
+
